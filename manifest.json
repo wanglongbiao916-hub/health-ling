@@ -1,0 +1,18 @@
+{
+  "name": "铃的健康计划",
+  "short_name": "铃的计划",
+  "description": "个人健康管理APP",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#060b1a",
+  "theme_color": "#00c2ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
