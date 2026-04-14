@@ -189,6 +189,41 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <span>起点73.6</span><span>3月68</span><span>6月63</span><span>目标60</span>
 </div>
 </div>
+
+<!-- 戒甜品饮料 -->
+<div class="card" style="background:linear-gradient(135deg,rgba(255,107,157,0.06),rgba(192,132,252,0.06));border-color:rgba(255,107,157,0.12);">
+<div style="text-align:center;">
+<div style="font-size:10px;color:var(--text2);margin-bottom:4px;">🧋 戒甜品饮料进度</div>
+<div id="drinkDays" style="font-size:42px;font-weight:800;background:linear-gradient(135deg,var(--pri),var(--pri2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;">0</div>
+<div style="font-size:11px;color:var(--text2);margin-top:2px;">天没喝甜品饮料</div>
+<div style="display:flex;justify-content:center;gap:16px;margin-top:10px;">
+<div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--green);" id="drinkMoney">¥0</div><div style="font-size:9px;color:var(--text2);">省下的钱</div></div>
+<div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--green);" id="drinkSugar">0g</div><div style="font-size:9px;color:var(--text2);">少摄入的糖</div></div>
+<div style="text-align:center;"><div style="font-size:16px;font-weight:700;color:var(--green);" id="drinkCal">0</div><div style="font-size:9px;color:var(--text2);">少摄入kcal</div></div>
+</div>
+<div id="drinkBtns" style="display:none;margin-top:10px;display:flex;gap:6px;justify-content:center;">
+<button onclick="showDrinkModal('setdate')" style="padding:6px 12px;border-radius:16px;border:1px solid rgba(255,107,157,0.3);background:transparent;color:var(--pri);font-size:10px;cursor:pointer;">📅 设置开始日</button>
+<button onclick="showDrinkModal('relapse')" style="padding:6px 12px;border-radius:16px;border:1px solid rgba(255,71,87,0.3);background:transparent;color:var(--red);font-size:10px;cursor:pointer;">😔 今天破戒了</button>
+</div>
+<div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);">
+<div style="font-size:9px;color:var(--text2);margin-bottom:4px;">🏆 里程碑</div>
+<div id="drinkBadges" style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;"></div>
+</div>
+</div>
+</div>
+
+<!-- 戒饮料弹窗 -->
+<div id="drinkModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center;">
+<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;width:280px;text-align:center;">
+<h4 id="drinkModalTitle" style="color:var(--pri);margin-bottom:10px;font-size:13px;">设置开始日期</h4>
+<input type="date" id="drinkModalDate" style="width:100%;padding:8px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.05);color:#fff;font-size:13px;text-align:center;margin-bottom:10px;">
+<p id="drinkModalMsg" style="font-size:10px;color:var(--text2);margin-bottom:10px;display:none;"></p>
+<div style="display:flex;gap:6px;justify-content:center;">
+<button onclick="closeDrinkModal()" style="padding:7px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;">取消</button>
+<button onclick="confirmDrinkModal()" style="padding:7px 16px;border-radius:12px;border:1px solid rgba(255,107,157,0.4);background:transparent;color:var(--pri);font-size:11px;cursor:pointer;">确认</button>
+</div>
+</div>
+</div>
 </div>
 
 <!-- 打卡页 -->
@@ -206,6 +241,7 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="checkin-item" data-key="sleep" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">😴</div><div style="font-size:11px;color:var(--text);">23点前入睡</div><div style="font-size:9px;color:var(--text2);">充足睡眠</div></div>
 <div class="checkin-item" data-key="weight" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">⚖️</div><div style="font-size:11px;color:var(--text);">记录体重</div><div style="font-size:9px;color:var(--text2);">每日称重</div></div>
 <div class="checkin-item" data-key="feet" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🦶</div><div style="font-size:11px;color:var(--text);">检查足部</div><div style="font-size:9px;color:var(--text2);">糖尿病足预防</div></div>
+<div class="checkin-item" data-key="nodrink" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🧋</div><div style="font-size:11px;color:var(--text);">今日未喝甜饮</div><div style="font-size:9px;color:var(--text2);">戒甜品饮料</div></div>
 </div>
 </div>
 </div>
@@ -252,6 +288,15 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="plan-item"><h5>⑧ 甲状腺结节</h5><p>左侧2类(囊性) · 右侧3类(囊实性)<br>→ 每6-12个月复查甲状腺B超<br>→ 3类结节需关注变化</p></div>
 <div class="plan-item"><h5>⑨ 子宫内膜增厚</h5><p>内膜1.5cm · 回声不均<br>→ 需妇科进一步检查<br>→ 可能与肥胖、糖尿病相关</p></div>
 <div class="plan-item"><h5>⑩ 幽门螺杆菌阳性</h5><p>碳13呼气试验阳性<br>→ 需消化科就诊 · 四联疗法根除治疗<br>→ 治疗后1个月复查</p></div>
+</div>
+
+<div class="card">
+<div class="card-title">💧 饮水追踪（目标2000ml）</div>
+<div style="display:flex;align-items:center;gap:10px;">
+<div id="waterCups" style="display:flex;gap:5px;flex-wrap:wrap;flex:1;"></div>
+<div style="font-size:10px;color:var(--text2);min-width:55px;text-align:right;"><span id="waterAmt" style="color:var(--pri);font-weight:700;font-size:14px;display:block;">0</span>ml/2000ml</div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="waterBar" style="width:0%;"></div></div>
 </div>
 
 <div class="card">
@@ -365,8 +410,9 @@ function startApp(){
   document.getElementById('mainApp').classList.add('show');
   appData=loadStore();
   if(!appData.checkins)appData.checkins={};
+  if(!appData.water)appData.water={};
   if(!appData.weightLog)appData.weightLog=[];
-  updateDate();updateUI();renderCheckins();renderWeight();animateScore();initFood();
+  updateDate();updateUI();renderCheckins();renderWeight();animateScore();initFood();renderDrink();renderWater();
 }
 
 function updateDate(){var d=new Date(),days=['日','一','二','三','四','五','六'];document.getElementById('todayDate').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日 周'+days[d.getDay()];}
@@ -419,6 +465,53 @@ function renderWeight(){
   document.getElementById('weightLeft').textContent='~'+Math.max(0,latest-60).toFixed(1)+'kg';
   var p=Math.min(100,((73.6-latest)/(73.6-60))*100);if(p<0)p=0;
   document.getElementById('weightBar').style.width=p+'%';
+}
+
+// ===== 饮水追踪 =====
+function renderWater(){
+  var today=getToday(),filled=(appData.water&&appData.water[today])||0;
+  var cups=document.getElementById('waterCups');cups.innerHTML='';
+  for(var i=0;i<7;i++){
+    var c=document.createElement('div');
+    c.style.cssText='width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,107,157,0.2);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .3s;';
+    if(i<filled){c.style.background='rgba(255,107,157,0.15)';c.style.borderColor='rgba(255,107,157,0.4)';}
+    c.textContent='💧';c.setAttribute('data-idx',i);
+    if(isAdmin){c.onclick=function(){var idx=parseInt(this.getAttribute('data-idx'));var cur=(appData.water&&appData.water[getToday()])||0;appData.water[getToday()]=idx<cur?idx:idx+1;saveData();renderWater();};}
+    cups.appendChild(c);
+  }
+  var amt=filled*300;document.getElementById('waterAmt').textContent=amt;
+  document.getElementById('waterBar').style.width=Math.min(100,amt/2000*100)+'%';
+}
+
+// ===== 戒甜品饮料 =====
+var drinkMode='';
+function showDrinkModal(mode){
+  if(!isAdmin)return;drinkMode=mode;
+  var m=document.getElementById('drinkModal'),d=document.getElementById('drinkModalDate'),msg=document.getElementById('drinkModalMsg'),t=document.getElementById('drinkModalTitle');
+  msg.style.display='none';d.style.display='block';
+  if(mode==='setdate'){t.textContent='📅 设置戒甜品饮料开始日期';d.value=appData.drinkQuitDate||getToday();}
+  else{t.textContent='😔 今天破戒了';d.style.display='none';msg.style.display='block';msg.textContent='没关系，重新开始就好！糖尿病控糖很重要，加油！';}
+  m.style.display='flex';
+}
+function closeDrinkModal(){document.getElementById('drinkModal').style.display='none';}
+function confirmDrinkModal(){
+  if(drinkMode==='setdate'){var v=document.getElementById('drinkModalDate').value;if(v){appData.drinkQuitDate=v;if(!appData.drinkHistory)appData.drinkHistory=[];appData.drinkHistory.push({type:'start',date:v,ts:Date.now()});}}
+  else{var today=getToday();if(!appData.drinkHistory)appData.drinkHistory=[];appData.drinkHistory.push({type:'relapse',date:today,ts:Date.now()});appData.drinkQuitDate=today;}
+  saveData();renderDrink();closeDrinkModal();
+}
+function renderDrink(){
+  var start=appData.drinkQuitDate,days=0;
+  if(start){days=Math.floor((new Date()-new Date(start))/(864e5));if(days<0)days=0;}
+  document.getElementById('drinkDays').textContent=days;
+  // 一杯奶茶约15元，50g糖，400kcal
+  document.getElementById('drinkMoney').textContent='¥'+(days*15);
+  document.getElementById('drinkSugar').textContent=(days*50)+'g';
+  document.getElementById('drinkCal').textContent=days*400;
+  var ms=[{d:1,l:'1天'},{d:3,l:'3天'},{d:7,l:'1周'},{d:14,l:'2周'},{d:30,l:'1月'},{d:60,l:'2月'},{d:90,l:'3月'}];
+  var b=document.getElementById('drinkBadges');if(b){b.innerHTML='';ms.forEach(function(m){
+    var s=document.createElement('span');s.style.cssText='padding:2px 8px;border-radius:10px;font-size:9px;border:1px solid '+(days>=m.d?'rgba(46,213,115,0.3)':'rgba(255,255,255,0.1)')+';color:'+(days>=m.d?'#2ed573':'rgba(224,232,240,0.5)')+';'+(days>=m.d?'background:rgba(46,213,115,0.08);':'');
+    s.textContent=(days>=m.d?'✅ ':'🔒 ')+m.l;b.appendChild(s);
+  });}
 }
 
 // ===== 饮食拍照 =====
