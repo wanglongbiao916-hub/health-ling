@@ -117,7 +117,7 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="d-card"><div class="dv">75</div><div class="dl">心率</div></div>
 </div>
 <div class="tags">
-<span class="stag alert">● 糖尿病</span><span class="stag alert">● 脂肪肝</span><span class="stag alert">● 颈动脉斑块</span>
+<span class="stag alert">● 血糖高</span><span class="stag alert">● 脂肪肝</span><span class="stag alert">● 颈动脉斑块</span>
 <span class="stag warn">● 高甘油三酯</span><span class="stag warn">● 高尿酸</span><span class="stag warn">● 转氨酶偏高</span>
 <span class="stag warn">● 肺结节</span><span class="stag ok">● HPV阴性</span><span class="stag ok">● 肿瘤标志物正常</span>
 </div>
@@ -153,7 +153,7 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 </div>
 </div>
 
-<div class="alert-banner"><span class="alert-icon">🚨</span><div><b style="color:var(--red)">糖尿病确诊（糖化7.0%）</b>，合并肥胖、脂肪肝、颈动脉斑块。控糖+减重是当务之急！</div></div>
+<div class="alert-banner"><span class="alert-icon">🚨</span><div><b style="color:var(--red)">血糖明显异常（糖化7.0%）</b>，合并肥胖、脂肪肝、颈动脉斑块。请尽快就医评估，控糖+减重是当务之急！</div></div>
 
 <div class="card">
 <div class="card-title">📊 综合健康评分</div>
@@ -168,8 +168,8 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 
 <div class="card-title" style="padding:0 4px;margin-bottom:6px;font-size:11px;">⚠️ 重点关注指标</div>
 <div class="metrics">
-<div class="metric red"><div class="m-label">糖化血红蛋白</div><div class="m-val">7.0%</div><div class="m-tag">糖尿病</div></div>
-<div class="metric red"><div class="m-label">空腹血糖</div><div class="m-val">6.73</div><div class="m-tag">偏高</div></div>
+<div class="metric red"><div class="m-label">糖化血红蛋白</div><div class="m-val">7.0%</div><div class="m-tag">血糖高</div></div>
+<div class="metric red"><div class="m-label">空腹血糖</div><div class="m-val">6.73</div><div class="m-tag">血糖高</div></div>
 <div class="metric red"><div class="m-label">谷丙转氨酶ALT</div><div class="m-val">53.2</div><div class="m-tag">偏高</div></div>
 <div class="metric red"><div class="m-label">谷草转氨酶AST</div><div class="m-val">51.9</div><div class="m-tag">偏高</div></div>
 <div class="metric warn"><div class="m-label">甘油三酯 TG</div><div class="m-val">2.56</div><div class="m-tag">偏高</div></div>
@@ -243,6 +243,13 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="checkin-item" data-key="feet" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🦶</div><div style="font-size:11px;color:var(--text);">检查足部</div><div style="font-size:9px;color:var(--text2);">糖尿病足预防</div></div>
 <div class="checkin-item" data-key="nodrink" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🧋</div><div style="font-size:11px;color:var(--text);">今日未喝甜饮</div><div style="font-size:9px;color:var(--text2);">戒甜品饮料</div></div>
 </div>
+<div style="margin-top:12px;">
+<div style="font-size:12px;font-weight:600;color:var(--pri);margin-bottom:8px;">💧 饮水追踪（目标2000ml）</div>
+<div style="display:flex;align-items:center;gap:10px;">
+<div id="waterCups" style="display:flex;gap:5px;flex-wrap:wrap;flex:1;"></div>
+<div style="font-size:10px;color:var(--text2);min-width:55px;text-align:right;"><span id="waterAmt" style="color:var(--pri);font-weight:700;font-size:14px;display:block;">0</span>ml/2000ml</div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="waterBar" style="width:0%;"></div></div>
 </div>
 </div>
 
@@ -253,8 +260,8 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <span class="forbid-tag">🍬 白糖蜂蜜</span><span class="forbid-tag">🧋 含糖饮料</span><span class="forbid-tag">🍚 精制主食过量</span><span class="forbid-tag">🍟 油炸食品</span><span class="forbid-tag">🦐 高嘌呤食物</span><span class="forbid-tag">🍰 甜点蛋糕</span><span class="forbid-tag">🍺 酒精</span>
 </div></div>
 
-<div class="card"><div class="card-title">🩸 糖尿病管理（最重要）</div>
-<div class="plan-item red-item"><h5>糖化血红蛋白 7.0% — 已确诊糖尿病</h5>
+<div class="card"><div class="card-title">🩸 血糖管理（最重要）</div>
+<div class="plan-item red-item"><h5>糖化血红蛋白 7.0% — 血糖偏高</h5>
 <p>→ 必须就医，在医生指导下开始降糖治疗<br>→ 目标：糖化降至6.5%以下<br>→ 空腹血糖控制在4.4-7.0，餐后2h<10.0<br>→ 每天自测血糖，记录数据带给医生看</p></div>
 <div class="plan-item warn-item"><h5>饮食控糖原则</h5>
 <p>→ 主食用糙米/燕麦/荞麦替代白米白面<br>→ 每餐主食不超过1拳头大小<br>→ 先吃菜→再吃肉→最后吃主食<br>→ 少食多餐，定时定量，不要跳餐</p></div>
@@ -278,25 +285,16 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 </div></div>
 
 <div class="card"><div class="card-title">🔬 各项指标改善策略</div>
-<div class="plan-item red-item"><h5>① 糖尿病 + 肥胖</h5><p>糖化7.0% · 空腹血糖6.73 · BMI 29.1<br>→ 就医开始降糖治疗 · 控糖饮食 · 减重 · 餐后运动<br>→ 每减5kg胰岛素敏感性显著改善</p></div>
+<div class="plan-item red-item"><h5>① 血糖高 + 肥胖</h5><p>糖化7.0% · 空腹血糖6.73 · BMI 29.1<br>→ 就医评估是否需要降糖治疗 · 控糖饮食 · 减重 · 餐后运动<br>→ 每减5kg胰岛素敏感性显著改善</p></div>
 <div class="plan-item red-item"><h5>② 脂肪肝 + 转氨酶偏高</h5><p>ALT 53.2 · AST 51.9 · CT显示脂肪肝<br>→ 低脂饮食 · 减重 · 有氧运动 · 戒酒<br>→ 减重后转氨酶会明显下降</p></div>
 <div class="plan-item red-item"><h5>③ 颈动脉粥样硬化斑块</h5><p>双侧颈动脉斑块 · 心血管风险高<br>→ 控糖+控脂是关键 · 低盐低脂饮食<br>→ 需就医评估是否需要他汀类药物</p></div>
-<div class="plan-item warn-item"><h5>④ 高甘油三酯 + LDL-C临界</h5><p>TG 2.56 · LDL-C 3.41<br>→ 低脂饮食 · 有氧运动 · 减重<br>→ 合并糖尿病，LDL-C目标应<2.6</p></div>
+<div class="plan-item warn-item"><h5>④ 高甘油三酯 + LDL-C临界</h5><p>TG 2.56 · LDL-C 3.41<br>→ 低脂饮食 · 有氧运动 · 减重<br>→ 合并血糖高，LDL-C目标应<2.6</p></div>
 <div class="plan-item warn-item"><h5>⑤ 高尿酸</h5><p>UA 440 · 超出正常范围<br>→ 每日饮水2000ml+ · 避免高嘌呤食物<br>→ 避免海鲜内脏浓汤啤酒</p></div>
-<div class="plan-item warn-item"><h5>⑥ 心电图异常</h5><p>窦性心动过速 · 室性早搏 · T波低平<br>→ 需心内科进一步评估<br>→ 可能与糖尿病、肥胖相关</p></div>
+<div class="plan-item warn-item"><h5>⑥ 心电图异常</h5><p>窦性心动过速 · 室性早搏 · T波低平<br>→ 需心内科进一步评估<br>→ 可能与血糖高、肥胖相关</p></div>
 <div class="plan-item"><h5>⑦ 肺部多发结节（2类）</h5><p>Lung-RADs 2类 · 良性可能性大<br>→ 每年复查胸部CT · 观察变化</p></div>
 <div class="plan-item"><h5>⑧ 甲状腺结节</h5><p>左侧2类(囊性) · 右侧3类(囊实性)<br>→ 每6-12个月复查甲状腺B超<br>→ 3类结节需关注变化</p></div>
-<div class="plan-item"><h5>⑨ 子宫内膜增厚</h5><p>内膜1.5cm · 回声不均<br>→ 需妇科进一步检查<br>→ 可能与肥胖、糖尿病相关</p></div>
+<div class="plan-item"><h5>⑨ 子宫内膜增厚</h5><p>内膜1.5cm · 回声不均<br>→ 需妇科进一步检查<br>→ 可能与肥胖、血糖高相关</p></div>
 <div class="plan-item"><h5>⑩ 幽门螺杆菌阳性</h5><p>碳13呼气试验阳性<br>→ 需消化科就诊 · 四联疗法根除治疗<br>→ 治疗后1个月复查</p></div>
-</div>
-
-<div class="card">
-<div class="card-title">💧 饮水追踪（目标2000ml）</div>
-<div style="display:flex;align-items:center;gap:10px;">
-<div id="waterCups" style="display:flex;gap:5px;flex-wrap:wrap;flex:1;"></div>
-<div style="font-size:10px;color:var(--text2);min-width:55px;text-align:right;"><span id="waterAmt" style="color:var(--pri);font-weight:700;font-size:14px;display:block;">0</span>ml/2000ml</div>
-</div>
-<div class="progress-bar"><div class="progress-fill" id="waterBar" style="width:0%;"></div></div>
 </div>
 
 <div class="card">
@@ -363,24 +361,24 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <!-- 复查页 -->
 <div class="page" id="page-review">
 <div class="top-bar"><h2>📅 复查提醒</h2><div class="date">定期监测</div></div>
-<div class="alert-banner"><span class="alert-icon">🏥</span><div>糖尿病确诊后需要规律复查，严格遵医嘱。</div></div>
+<div class="alert-banner"><span class="alert-icon">🏥</span><div>血糖偏高需要规律复查，严格遵医嘱。</div></div>
 <div class="card"><div class="card-title">🚨 需要尽快就医</div>
 <div class="plan-item red-item"><p>
-• 内分泌科：糖尿病确诊，开始降糖治疗<br>
+• 内分泌科：血糖高，评估是否需要降糖治疗<br>
 • 心内科：室性早搏+T波低平，需进一步检查<br>
 • 消化科：幽门螺杆菌阳性，需根除治疗<br>
 • 妇科：子宫内膜增厚1.5cm，需进一步检查
 </p></div></div>
 <div class="card"><div class="card-title">📋 每3个月</div><div style="font-size:10px;color:var(--text2);line-height:2;">🩸 糖化血红蛋白（目标<6.5%）<br>🩸 空腹+餐后血糖<br>🩸 血脂四项<br>🩸 肝功能(ALT·AST)<br>💎 尿酸</div></div>
-<div class="card"><div class="card-title">📋 每6个月</div><div style="font-size:10px;color:var(--text2);line-height:2;">🦋 甲状腺B超（关注右侧3类结节）<br>🔍 腹部B超（脂肪肝）<br>🔍 颈动脉B超（斑块变化）<br>👁️ 眼底检查（糖尿病视网膜病变筛查）<br>🦶 足部检查（糖尿病足筛查）</div></div>
-<div class="card"><div class="card-title">📋 每12个月</div><div style="font-size:10px;color:var(--text2);line-height:2;">🫁 胸部CT（肺结节随访）<br>🏥 全面体检<br>🩺 心电图复查<br>🔬 尿微量白蛋白（糖尿病肾病筛查）</div></div>
+<div class="card"><div class="card-title">📋 每6个月</div><div style="font-size:10px;color:var(--text2);line-height:2;">🦋 甲状腺B超（关注右侧3类结节）<br>🔍 腹部B超（脂肪肝）<br>🔍 颈动脉B超（斑块变化）<br>👁️ 眼底检查（血糖高需定期筛查）<br>🦶 足部检查</div></div>
+<div class="card"><div class="card-title">📋 每12个月</div><div style="font-size:10px;color:var(--text2);line-height:2;">🫁 胸部CT（肺结节随访）<br>🏥 全面体检<br>🩺 心电图复查<br>🔬 尿微量白蛋白（肾病筛查）</div></div>
 <div class="card"><div class="card-title">📈 预期改善</div><div style="font-size:10px;color:var(--text2);line-height:2;">
 <b style="color:var(--warn);">3个月:</b> 体重→68kg · 糖化<6.5% · TG<2.0 · 转氨酶下降<br>
 <b style="color:var(--green);">6个月:</b> 体重→63kg · 血糖稳定 · 脂肪肝改善 · 各项指标趋于正常
 </div></div>
 </div>
 
-<p class="disclaimer">⚠️ 本方案基于体检数据分析制定，仅供日常健康管理参考<br>不能替代医生的专业诊断和治疗建议，请遵医嘱<br>糖尿病确诊后请务必就医接受正规治疗</p>
+<p class="disclaimer">⚠️ 本方案基于体检数据分析制定，仅供日常健康管理参考<br>不能替代医生的专业诊断和治疗建议，请遵医嘱<br>血糖偏高请务必就医接受正规评估</p>
 
 <!-- 底部导航 -->
 <div class="nav">
@@ -490,7 +488,7 @@ function showDrinkModal(mode){
   var m=document.getElementById('drinkModal'),d=document.getElementById('drinkModalDate'),msg=document.getElementById('drinkModalMsg'),t=document.getElementById('drinkModalTitle');
   msg.style.display='none';d.style.display='block';
   if(mode==='setdate'){t.textContent='📅 设置戒甜品饮料开始日期';d.value=appData.drinkQuitDate||getToday();}
-  else{t.textContent='😔 今天破戒了';d.style.display='none';msg.style.display='block';msg.textContent='没关系，重新开始就好！糖尿病控糖很重要，加油！';}
+  else{t.textContent='😔 今天破戒了';d.style.display='none';msg.style.display='block';msg.textContent='没关系，重新开始就好！控糖很重要，加油！';}
   m.style.display='flex';
 }
 function closeDrinkModal(){document.getElementById('drinkModal').style.display='none';}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>下载图标</title></head>
+<body style="background:#222;color:#fff;text-align:center;padding:40px;font-family:sans-serif;">
+<h2>铃的健康计划 - 图标</h2>
+<p style="color:#aaa;margin:10px 0;">点击按钮下载，然后上传到 GitHub</p>
+<canvas id="cv" width="180" height="180" style="margin:20px;border-radius:40px;border:2px solid #444;"></canvas>
+<br>
+<button onclick="dl()" style="padding:12px 30px;font-size:16px;border-radius:10px;border:none;background:#ff6b9d;color:#fff;font-weight:bold;cursor:pointer;">下载 icon.png</button>
+<script>
+var c=document.getElementById('cv'),ctx=c.getContext('2d'),s=180;
+var g=ctx.createLinearGradient(0,0,s,s);g.addColorStop(0,'#060b1a');g.addColorStop(1,'#0c1a3a');
+ctx.fillStyle=g;ctx.fillRect(0,0,s,s);
+// 外圈
+ctx.beginPath();ctx.arc(s/2,s*0.38,s*0.24,0,Math.PI*2);ctx.strokeStyle='rgba(255,107,157,0.25)';ctx.lineWidth=1.5;ctx.stroke();
+// 心电图
+var cy=s*0.38;
+ctx.beginPath();ctx.moveTo(s*0.12,cy);ctx.lineTo(s*0.33,cy);ctx.lineTo(s*0.39,cy-s*0.1);ctx.lineTo(s*0.44,cy+s*0.08);ctx.lineTo(s*0.50,cy-s*0.15);ctx.lineTo(s*0.56,cy+s*0.1);ctx.lineTo(s*0.61,cy);ctx.lineTo(s*0.88,cy);
+var lg=ctx.createLinearGradient(0,0,s,0);lg.addColorStop(0,'#ff6b9d');lg.addColorStop(1,'#c084fc');
+ctx.strokeStyle=lg;ctx.lineWidth=s*0.025;ctx.lineCap='round';ctx.lineJoin='round';
+ctx.shadowColor='#ff6b9d';ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;
+// 铃
+ctx.fillStyle='#ffffff';ctx.font='bold '+(s*0.18)+'px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('铃',s/2,s*0.68);
+// HEALTH
+ctx.fillStyle='rgba(255,107,157,0.7)';ctx.font='600 '+(s*0.07)+'px sans-serif';ctx.fillText('HEALTH',s/2,s*0.85);
+// 小点
+ctx.fillStyle='#ff6b9d';ctx.globalAlpha=0.4;
+ctx.beginPath();ctx.arc(s*0.15,s*0.12,2,0,Math.PI*2);ctx.fill();
+ctx.beginPath();ctx.arc(s*0.85,s*0.2,1.5,0,Math.PI*2);ctx.fill();
+ctx.fillStyle='#c084fc';
+ctx.beginPath();ctx.arc(s*0.8,s*0.88,2,0,Math.PI*2);ctx.fill();
+ctx.globalAlpha=1;
+function dl(){var a=document.createElement('a');a.download='icon.png';a.href=c.toDataURL('image/png');a.click();}
+</script>
+</body>
+</html>
