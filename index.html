@@ -242,6 +242,7 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="checkin-item" data-key="weight" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">⚖️</div><div style="font-size:11px;color:var(--text);">记录体重</div><div style="font-size:9px;color:var(--text2);">每日称重</div></div>
 <div class="checkin-item" data-key="feet" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🦶</div><div style="font-size:11px;color:var(--text);">检查足部</div><div style="font-size:9px;color:var(--text2);">糖尿病足预防</div></div>
 <div class="checkin-item" data-key="nodrink" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🧋</div><div style="font-size:11px;color:var(--text);">今日未喝甜饮</div><div style="font-size:9px;color:var(--text2);">戒甜品饮料</div></div>
+<div class="checkin-item" data-key="walk" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;position:relative;"><div style="font-size:24px;margin-bottom:4px;">🚶</div><div style="font-size:11px;color:var(--text);">午饭后散步</div><div style="font-size:9px;color:var(--text2);">助降餐后血糖</div></div>
 </div>
 <div style="margin-top:12px;">
 <div style="font-size:12px;font-weight:600;color:var(--pri);margin-bottom:8px;">💧 饮水追踪（目标2000ml）</div>
@@ -252,6 +253,33 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="progress-bar"><div class="progress-fill" id="waterBar" style="width:0%;"></div></div>
 </div>
 </div>
+
+<!-- 运动拍照记录 -->
+<div class="card">
+<div class="card-title">🏃 运动拍照记录</div>
+<div id="exAdminOnly" style="display:none;">
+<input type="file" id="exCamera" accept="image/*" style="display:none;" onchange="handleExPhoto(this)">
+<div onclick="document.getElementById('exCamera').click()" style="border:2px dashed rgba(255,107,157,0.3);border-radius:14px;padding:20px;cursor:pointer;margin-bottom:10px;text-align:center;">
+<div style="font-size:30px;margin-bottom:4px;">📷🏃</div>
+<div style="font-size:11px;color:var(--pri);">拍摄运动设备屏幕</div>
+<div style="font-size:9px;color:var(--text2);margin-top:3px;">AI自动识别距离、时间、心率、热量</div>
+</div>
+<img id="exPreview" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px;">
+<div id="exAnalyzing" style="display:none;padding:12px;color:var(--pri);font-size:11px;text-align:center;"><div style="font-size:20px;">🔍</div>AI正在分析运动数据...</div>
+<div id="exResult" style="display:none;"></div>
+</div>
+<div id="exViewerNotice" style="display:none;font-size:10px;color:var(--warn);text-align:center;padding:10px;">👀 访客模式无法记录</div>
+<div style="margin-top:8px;">
+<div style="font-size:10px;color:var(--text2);margin-bottom:4px;">今日运动统计</div>
+<div style="display:flex;justify-content:space-around;text-align:center;">
+<div><div id="exTotalCal" style="font-size:18px;font-weight:700;color:var(--green);">0</div><div style="font-size:8px;color:var(--text2);">消耗 kcal</div></div>
+<div><div id="exTotalDist" style="font-size:18px;font-weight:700;color:var(--pri);">0</div><div style="font-size:8px;color:var(--text2);">距离 km</div></div>
+<div><div id="exTotalTime" style="font-size:18px;font-weight:700;color:var(--purple);">0</div><div style="font-size:8px;color:var(--text2);">时间 min</div></div>
+</div>
+</div>
+<div id="exLog" style="font-size:10px;color:var(--text2);margin-top:8px;"></div>
+</div>
+
 </div><!-- end page-checkin -->
 
 <!-- 方案页 -->
@@ -329,20 +357,26 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 <div class="card" style="text-align:center;">
 <div class="card-title">📷 拍照识别食物</div>
 <div id="foodAdminOnly" style="display:none;">
+<!-- 餐次选择 -->
+<div style="display:flex;gap:6px;justify-content:center;margin-bottom:12px;">
+<button class="meal-btn active" onclick="selectMeal(this,'breakfast')" style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,107,157,0.4);background:rgba(255,107,157,0.1);color:var(--pri);font-size:11px;cursor:pointer;">🌅 早餐</button>
+<button class="meal-btn" onclick="selectMeal(this,'lunch')" style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;">☀️ 午餐</button>
+<button class="meal-btn" onclick="selectMeal(this,'dinner')" style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;">🌙 晚餐</button>
+<button class="meal-btn" onclick="selectMeal(this,'snack')" style="padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;">🍎 加餐</button>
+</div>
 <input type="file" id="foodCamera" accept="image/*" style="display:none;" onchange="handleFoodPhoto(this)">
-<div onclick="document.getElementById('foodCamera').click()" style="border:2px dashed rgba(255,107,157,0.3);border-radius:14px;padding:30px;cursor:pointer;margin-bottom:10px;">
-<div style="font-size:40px;margin-bottom:8px;">📷</div>
+<div onclick="document.getElementById('foodCamera').click()" style="border:2px dashed rgba(255,107,157,0.3);border-radius:14px;padding:24px;cursor:pointer;margin-bottom:10px;">
+<div style="font-size:36px;margin-bottom:6px;">📷</div>
 <div style="font-size:12px;color:var(--pri);">点击拍照或选择照片</div>
 <div style="font-size:10px;color:var(--text2);margin-top:4px;">AI自动识别食物并估算热量</div>
 </div>
 <img id="foodPreview" style="display:none;max-width:100%;border-radius:10px;margin-bottom:10px;">
-<div id="foodAnalyzing" style="display:none;padding:16px;color:var(--pri);font-size:12px;">
-<div style="font-size:24px;">🔍</div>AI正在分析食物...
-</div>
+<div id="foodAnalyzing" style="display:none;padding:16px;color:var(--pri);font-size:12px;"><div style="font-size:24px;">🔍</div>AI正在分析食物...</div>
 <div id="foodResult" style="display:none;text-align:left;"></div>
 </div>
 <div id="foodViewerNotice" style="display:none;padding:16px;font-size:11px;color:var(--warn);">👀 访客模式无法拍照记录</div>
 </div>
+
 <div class="card">
 <div class="card-title">📊 今日摄入统计</div>
 <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:10px;">
@@ -352,10 +386,28 @@ body{font-family:-apple-system,"SF Pro Display","Microsoft YaHei","PingFang SC",
 </div>
 <div class="progress-bar"><div class="progress-fill" id="calBar" style="width:0%;"></div></div>
 <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:3px;"><span>0 kcal</span><span>目标 1400 kcal</span></div>
+<!-- 每日分析（23点后显示） -->
+<div id="dailyAnalysis" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);"></div>
 </div>
+
 <div class="card">
 <div class="card-title">🍽️ 今日饮食记录</div>
 <div id="foodLog" style="font-size:11px;color:var(--text2);"></div>
+</div>
+
+<!-- 体重记录 -->
+<div class="card">
+<div class="card-title">⚖️ 每日称重记录</div>
+<div id="weightAdminOnly" style="display:none;">
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+<input type="number" id="weightInput" step="0.1" placeholder="输入体重(kg)" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:#fff;font-size:14px;text-align:center;outline:none;">
+<button onclick="saveWeight()" style="padding:10px 16px;border-radius:10px;border:1px solid rgba(255,107,157,0.4);background:rgba(255,107,157,0.1);color:var(--pri);font-size:12px;font-weight:600;cursor:pointer;">记录</button>
+</div>
+</div>
+<div style="font-size:10px;color:var(--text2);margin-bottom:8px;">最近体重: <span id="latestWeight" style="color:var(--pri);font-weight:700;">73.6</span> kg · 目标: 60 kg</div>
+<!-- 体重趋势图 -->
+<canvas id="weightChart" width="380" height="160" style="width:100%;height:auto;"></canvas>
+<div id="weightHistory" style="font-size:10px;color:var(--text2);margin-top:8px;max-height:120px;overflow-y:auto;"></div>
 </div>
 </div>
 
@@ -411,15 +463,17 @@ function startApp(){
   if(!appData.checkins)appData.checkins={};
   if(!appData.water)appData.water={};
   if(!appData.weightLog)appData.weightLog=[];
-  updateDate();updateUI();renderCheckins();renderWeight();animateScore();initFood();renderDrink();renderWater();
+  updateDate();updateUI();renderCheckins();renderWeight();animateScore();initFood();renderDrink();renderWater();renderExLog();
 }
 
 function updateDate(){var d=new Date(),days=['日','一','二','三','四','五','六'];document.getElementById('todayDate').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日 周'+days[d.getDay()];}
 
 function updateUI(){
   var badge=document.getElementById('roleBadge'),lb=document.getElementById('logoutBtn'),rn=document.getElementById('readonlyNotice');
-  if(isAdmin){badge.innerHTML='<span class="admin-badge">🔑 管理员</span>';lb.style.display='inline-block';rn.style.display='none';document.querySelectorAll('.checkin-item').forEach(function(el){el.style.opacity='1';el.onclick=function(){toggleCheckin(this);};});}
-  else{badge.innerHTML='<span class="viewer-badge">👀 访客</span>';lb.style.display='none';rn.style.display='block';document.querySelectorAll('.checkin-item').forEach(function(el){el.style.opacity='0.6';el.onclick=null;});}
+  if(isAdmin){badge.innerHTML='<span class="admin-badge">🔑 管理员</span>';lb.style.display='inline-block';rn.style.display='none';document.querySelectorAll('.checkin-item').forEach(function(el){el.style.opacity='1';el.onclick=function(){toggleCheckin(this);};});
+    var exA=document.getElementById('exAdminOnly');if(exA)exA.style.display='block';var exV=document.getElementById('exViewerNotice');if(exV)exV.style.display='none';}
+  else{badge.innerHTML='<span class="viewer-badge">👀 访客</span>';lb.style.display='none';rn.style.display='block';document.querySelectorAll('.checkin-item').forEach(function(el){el.style.opacity='0.6';el.onclick=null;});
+    var exA2=document.getElementById('exAdminOnly');if(exA2)exA2.style.display='none';var exV2=document.getElementById('exViewerNotice');if(exV2)exV2.style.display='block';}
 }
 
 function switchPage(name){
@@ -517,12 +571,20 @@ function renderDrink(){
 var DOUBAO_KEY='242f320e-9016-4b65-b275-7818c3241088';
 var DOUBAO_MODEL='ep-20260413163437-bhwlt';
 var DOUBAO_URL='https://ark.cn-beijing.volces.com/api/v3/chat/completions';
+var currentMeal='breakfast';
+var mealNames={breakfast:'🌅 早餐',lunch:'☀️ 午餐',dinner:'🌙 晚餐',snack:'🍎 加餐'};
+
+function selectMeal(btn,meal){
+  currentMeal=meal;
+  document.querySelectorAll('.meal-btn').forEach(function(b){b.style.borderColor='rgba(255,255,255,0.1)';b.style.background='transparent';b.style.color='var(--text2)';});
+  btn.style.borderColor='rgba(255,107,157,0.4)';btn.style.background='rgba(255,107,157,0.1)';btn.style.color='var(--pri)';
+}
 
 function initFood(){
-  if(isAdmin){document.getElementById('foodAdminOnly').style.display='block';document.getElementById('foodViewerNotice').style.display='none';}
-  else{document.getElementById('foodAdminOnly').style.display='none';document.getElementById('foodViewerNotice').style.display='block';}
+  if(isAdmin){document.getElementById('foodAdminOnly').style.display='block';document.getElementById('foodViewerNotice').style.display='none';document.getElementById('weightAdminOnly').style.display='block';}
+  else{document.getElementById('foodAdminOnly').style.display='none';document.getElementById('foodViewerNotice').style.display='block';document.getElementById('weightAdminOnly').style.display='none';}
   document.getElementById('foodDate').textContent=new Date().getMonth()+1+'/'+new Date().getDate();
-  renderFoodLog();
+  renderFoodLog();renderWeightChart();checkDailyAnalysis();
 }
 function handleFoodPhoto(input){
   if(!input.files||!input.files[0])return;
@@ -531,7 +593,7 @@ function handleFoodPhoto(input){
   reader.readAsDataURL(input.files[0]);
 }
 function analyzeFoodImage(base64){
-  var body={model:DOUBAO_MODEL,messages:[{role:'user',content:[{type:'text',text:'Please analyze this food photo. Return ONLY a JSON object (no markdown) with: {"foods":[{"name":"Chinese name","amount":"amount","calories":number,"protein":number,"fat":number,"carbs":number}],"total_calories":number,"total_protein":number,"total_fat":number,"total_carbs":number,"advice":"Chinese advice for a diabetic patient with fatty liver, high uric acid, and carotid plaque"}'},{type:'image_url',image_url:{url:base64}}]}],max_tokens:1000};
+  var body={model:DOUBAO_MODEL,messages:[{role:'user',content:[{type:'text',text:'Please analyze this food photo. Return ONLY a JSON object (no markdown) with: {"foods":[{"name":"Chinese name","amount":"amount","calories":number,"protein":number,"fat":number,"carbs":number}],"total_calories":number,"total_protein":number,"total_fat":number,"total_carbs":number,"advice":"Chinese advice for a patient with high blood sugar, fatty liver, high uric acid, and carotid plaque"}'},{type:'image_url',image_url:{url:base64}}]}],max_tokens:1000};
   fetch(DOUBAO_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+DOUBAO_KEY},body:JSON.stringify(body)})
   .then(function(r){return r.json();})
   .then(function(data){
@@ -542,7 +604,7 @@ function analyzeFoodImage(base64){
   }).catch(function(err){document.getElementById('foodAnalyzing').style.display='none';document.getElementById('foodResult').style.display='block';document.getElementById('foodResult').innerHTML='<div style="color:var(--red);font-size:11px;">Network error</div>';});
 }
 function showFoodResult(r){
-  var h='<div style="background:rgba(255,107,157,0.06);border-radius:10px;padding:12px;margin-bottom:8px;"><div style="font-size:12px;color:var(--pri);margin-bottom:8px;font-weight:600;">AI分析结果</div>';
+  var h='<div style="background:rgba(255,107,157,0.06);border-radius:10px;padding:12px;margin-bottom:8px;"><div style="font-size:12px;color:var(--pri);margin-bottom:8px;font-weight:600;">'+mealNames[currentMeal]+' AI分析结果</div>';
   if(r.foods)r.foods.forEach(function(f){h+='<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:11px;"><span>'+f.name+' '+(f.amount||'')+'</span><span style="color:var(--pri);font-weight:600;">'+f.calories+' kcal</span></div>';});
   h+='<div style="display:flex;justify-content:space-around;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);font-size:10px;"><span style="color:var(--pri);">'+(r.total_calories||0)+' kcal</span><span style="color:var(--green);">P:'+(r.total_protein||0)+'g</span><span style="color:var(--warn);">F:'+(r.total_fat||0)+'g</span><span style="color:var(--purple);">C:'+(r.total_carbs||0)+'g</span></div></div>';
   if(r.advice)h+='<div style="background:rgba(255,177,66,0.06);border-left:3px solid var(--warn);border-radius:0 10px 10px 0;padding:10px;font-size:10px;color:var(--text2);line-height:1.8;">'+r.advice+'</div>';
@@ -550,7 +612,7 @@ function showFoodResult(r){
 }
 function saveFoodRecord(r){
   var today=getToday();if(!appData.foodLog)appData.foodLog={};if(!appData.foodLog[today])appData.foodLog[today]=[];
-  appData.foodLog[today].push({ts:Date.now(),foods:r.foods||[],total_calories:r.total_calories||0,total_protein:r.total_protein||0,total_fat:r.total_fat||0});
+  appData.foodLog[today].push({ts:Date.now(),meal:currentMeal,mealName:mealNames[currentMeal],foods:r.foods||[],total_calories:r.total_calories||0,total_protein:r.total_protein||0,total_fat:r.total_fat||0,total_carbs:r.total_carbs||0});
   saveData();renderFoodLog();
 }
 function renderFoodLog(){
@@ -560,12 +622,191 @@ function renderFoodLog(){
   document.getElementById('calBar').style.width=Math.min(100,totalCal/1400*100)+'%';
   var el=document.getElementById('foodLog');
   if(logs.length===0){el.innerHTML='<div style="text-align:center;padding:10px;">今天还没有记录</div>';return;}
-  var h='';logs.forEach(function(l,idx){var d=new Date(l.ts);var t=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
-  h+='<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:var(--pri);font-weight:600;">'+t+'</span><div><span style="color:var(--pri);">'+l.total_calories+' kcal</span> <span onclick="deleteFoodRecord('+idx+')" style="color:var(--red);cursor:pointer;font-size:9px;padding:2px 6px;border:1px solid rgba(255,71,87,0.3);border-radius:6px;">删除</span></div></div>';
-  if(l.foods)l.foods.forEach(function(f){h+='<div style="font-size:10px;color:var(--text2);">'+f.name+' '+(f.amount||'')+' - '+f.calories+'kcal</div>';});h+='</div>';});
+  // 按餐次分组
+  var groups={breakfast:[],lunch:[],dinner:[],snack:[]};
+  logs.forEach(function(l,idx){l._idx=idx;var m=l.meal||'snack';if(!groups[m])groups[m]=[];groups[m].push(l);});
+  var h='';
+  ['breakfast','lunch','dinner','snack'].forEach(function(m){
+    if(groups[m].length===0)return;
+    var mCal=0;groups[m].forEach(function(l){mCal+=l.total_calories||0;});
+    h+='<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,107,157,0.1);"><span style="color:var(--pri);font-weight:600;">'+(mealNames[m]||m)+'</span><span style="color:var(--pri);font-size:10px;">'+mCal+' kcal</span></div>';
+    groups[m].forEach(function(l){
+      var d=new Date(l.ts);var t=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+      h+='<div style="padding:4px 0;"><div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:var(--text2);">'+t+'</span><span onclick="deleteFoodRecord('+l._idx+')" style="color:var(--red);cursor:pointer;font-size:9px;padding:1px 5px;border:1px solid rgba(255,71,87,0.3);border-radius:4px;">删除</span></div>';
+      if(l.foods)l.foods.forEach(function(f){h+='<div style="font-size:10px;color:var(--text2);padding-left:4px;">'+f.name+' '+(f.amount||'')+' - '+f.calories+'kcal</div>';});
+      h+='</div>';
+    });
+    h+='</div>';
+  });
   el.innerHTML=h;
+  checkDailyAnalysis();
 }
 function deleteFoodRecord(idx){if(!isAdmin)return;var today=getToday();if(appData.foodLog&&appData.foodLog[today]){appData.foodLog[today].splice(idx,1);saveData();renderFoodLog();}}
+
+// 每日热量分析（23点后显示）
+function checkDailyAnalysis(){
+  var el=document.getElementById('dailyAnalysis');if(!el)return;
+  var now=new Date();
+  if(now.getHours()>=23){
+    var today=getToday(),logs=(appData.foodLog&&appData.foodLog[today])||[];
+    if(logs.length===0){el.style.display='none';return;}
+    var totalCal=0,totalP=0,totalF=0,totalC=0;
+    logs.forEach(function(l){totalCal+=l.total_calories||0;totalP+=l.total_protein||0;totalF+=l.total_fat||0;totalC+=l.total_carbs||0;});
+    var status=totalCal<=1400?'green':'red';
+    var msg=totalCal<=1400?'今日热量控制达标，继续保持！':'今日热量超标，明天注意控制饮食。';
+    el.style.display='block';
+    el.innerHTML='<div style="font-size:11px;font-weight:600;color:var(--pri);margin-bottom:6px;">📊 今日饮食分析</div>'
+      +'<div style="font-size:10px;color:var(--text2);line-height:1.8;">'
+      +'总热量: <b style="color:var(--'+status+');">'+totalCal+' kcal</b> / 1400 kcal<br>'
+      +'蛋白质: '+totalP+'g · 脂肪: '+totalF+'g · 碳水: '+totalC+'g<br>'
+      +'<span style="color:var(--'+status+');">'+msg+'</span></div>';
+  } else {
+    el.style.display='none';
+  }
+}
+
+// ===== 体重记录与趋势图 =====
+function saveWeight(){
+  if(!isAdmin)return;
+  var val=parseFloat(document.getElementById('weightInput').value);
+  if(isNaN(val)||val<30||val>200)return;
+  var today=getToday();
+  if(!appData.weightLog)appData.weightLog=[];
+  appData.weightLog=appData.weightLog.filter(function(w){return w.date!==today;});
+  appData.weightLog.push({date:today,weight:val,ts:Date.now()});
+  appData.weightLog.sort(function(a,b){return a.date.localeCompare(b.date);});
+  saveData();
+  document.getElementById('weightInput').value='';
+  renderWeight();renderWeightChart();
+}
+
+function renderWeightChart(){
+  var log=appData.weightLog||[];
+  var latest=log.length>0?log[log.length-1].weight:73.6;
+  document.getElementById('latestWeight').textContent=latest;
+  // 趋势图
+  var canvas=document.getElementById('weightChart');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  // 背景
+  ctx.fillStyle='rgba(255,107,157,0.03)';ctx.fillRect(0,0,W,H);
+  if(log.length<2){
+    ctx.fillStyle='rgba(224,232,240,0.3)';ctx.font='12px sans-serif';ctx.textAlign='center';
+    ctx.fillText('记录2天以上体重后显示趋势图',W/2,H/2);
+    renderWeightHistory();return;
+  }
+  // 取最近30天
+  var data=log.slice(-30);
+  var weights=data.map(function(d){return d.weight;});
+  var minW=Math.min.apply(null,weights)-2;
+  var maxW=Math.max.apply(null,weights)+2;
+  var padL=40,padR=10,padT=15,padB=25;
+  var cW=W-padL-padR,cH=H-padT-padB;
+  // 目标线 60kg
+  var targetY=padT+cH-(60-minW)/(maxW-minW)*cH;
+  if(targetY>padT&&targetY<H-padB){
+    ctx.strokeStyle='rgba(46,213,115,0.3)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(padL,targetY);ctx.lineTo(W-padR,targetY);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='rgba(46,213,115,0.5)';ctx.font='9px sans-serif';ctx.textAlign='left';ctx.fillText('60kg',padL+2,targetY-3);
+  }
+  // Y轴标签
+  ctx.fillStyle='rgba(224,232,240,0.3)';ctx.font='9px sans-serif';ctx.textAlign='right';
+  for(var i=0;i<=4;i++){var v=minW+(maxW-minW)*i/4;var y=padT+cH-i/4*cH;ctx.fillText(v.toFixed(1),padL-4,y+3);}
+  // 折线
+  ctx.beginPath();
+  var grd=ctx.createLinearGradient(0,0,W,0);grd.addColorStop(0,'#ff6b9d');grd.addColorStop(1,'#c084fc');
+  ctx.strokeStyle=grd;ctx.lineWidth=2;ctx.lineJoin='round';
+  data.forEach(function(d,i){
+    var x=padL+i/(data.length-1)*cW;
+    var y=padT+cH-(d.weight-minW)/(maxW-minW)*cH;
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+  // 数据点
+  data.forEach(function(d,i){
+    var x=padL+i/(data.length-1)*cW;
+    var y=padT+cH-(d.weight-minW)/(maxW-minW)*cH;
+    ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle='#ff6b9d';ctx.fill();
+  });
+  // X轴日期
+  ctx.fillStyle='rgba(224,232,240,0.3)';ctx.font='8px sans-serif';ctx.textAlign='center';
+  [0,Math.floor(data.length/2),data.length-1].forEach(function(i){
+    if(i>=data.length)return;
+    var x=padL+i/(data.length-1)*cW;
+    ctx.fillText(data[i].date.slice(5),x,H-5);
+  });
+  renderWeightHistory();
+}
+
+function renderWeightHistory(){
+  var el=document.getElementById('weightHistory');if(!el)return;
+  var log=(appData.weightLog||[]).slice(-10).reverse();
+  if(log.length===0){el.innerHTML='<div style="text-align:center;">暂无记录</div>';return;}
+  var h='';
+  log.forEach(function(w,i){
+    var diff='';
+    if(i<log.length-1){var d=w.weight-log[i+1].weight;diff=d>0?'<span style="color:var(--red);">+'+d.toFixed(1)+'</span>':'<span style="color:var(--green);">'+d.toFixed(1)+'</span>';}
+    h+='<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);"><span>'+w.date.slice(5)+'</span><span><b>'+w.weight+'</b> kg '+diff+'</span></div>';
+  });
+  el.innerHTML=h;
+}
+
+// ===== 运动拍照记录 =====
+function handleExPhoto(input){
+  if(!input.files||!input.files[0])return;
+  var reader=new FileReader();
+  reader.onload=function(e){document.getElementById('exPreview').src=e.target.result;document.getElementById('exPreview').style.display='block';document.getElementById('exAnalyzing').style.display='block';document.getElementById('exResult').style.display='none';analyzeExImage(e.target.result);};
+  reader.readAsDataURL(input.files[0]);
+}
+function analyzeExImage(base64){
+  var body={model:DOUBAO_MODEL,messages:[{role:'user',content:[{type:'text',text:'Analyze this exercise equipment screen photo. Return ONLY a JSON object (no markdown): {"type":"exercise type in Chinese","distance_km":number or 0,"duration_min":number or 0,"heart_rate":number or 0,"calories":number or 0,"speed_kmh":number or 0,"summary":"one line Chinese summary of this workout"}'},{type:'image_url',image_url:{url:base64}}]}],max_tokens:500};
+  fetch(DOUBAO_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+DOUBAO_KEY},body:JSON.stringify(body)})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    document.getElementById('exAnalyzing').style.display='none';
+    if(data.choices&&data.choices[0]){var text=data.choices[0].message.content.replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
+    try{var result=JSON.parse(text);showExResult(result);saveExRecord(result);}catch(e){document.getElementById('exResult').style.display='block';document.getElementById('exResult').innerHTML='<div style="padding:8px;background:rgba(255,107,157,0.06);border-radius:8px;font-size:10px;line-height:1.8;">'+text+'</div>';}}
+    else{document.getElementById('exResult').style.display='block';document.getElementById('exResult').innerHTML='<div style="color:var(--red);font-size:10px;">识别失败</div>';}
+  }).catch(function(){document.getElementById('exAnalyzing').style.display='none';document.getElementById('exResult').style.display='block';document.getElementById('exResult').innerHTML='<div style="color:var(--red);font-size:10px;">网络错误</div>';});
+}
+function showExResult(r){
+  var h='<div style="background:rgba(46,213,115,0.06);border-radius:10px;padding:10px;margin-top:8px;">';
+  h+='<div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:6px;">🏃 '+(r.type||'运动')+'</div>';
+  h+='<div style="display:flex;flex-wrap:wrap;gap:8px;font-size:10px;color:var(--text2);">';
+  if(r.distance_km)h+='<span>📏 '+r.distance_km+'km</span>';
+  if(r.duration_min)h+='<span>⏱️ '+r.duration_min+'min</span>';
+  if(r.heart_rate)h+='<span>💓 '+r.heart_rate+'bpm</span>';
+  if(r.calories)h+='<span>🔥 '+r.calories+'kcal</span>';
+  if(r.speed_kmh)h+='<span>⚡ '+r.speed_kmh+'km/h</span>';
+  h+='</div>';
+  if(r.summary)h+='<div style="font-size:10px;color:var(--text2);margin-top:6px;">'+r.summary+'</div>';
+  h+='</div>';
+  document.getElementById('exResult').style.display='block';document.getElementById('exResult').innerHTML=h;
+}
+function saveExRecord(r){
+  var today=getToday();if(!appData.exLog)appData.exLog={};if(!appData.exLog[today])appData.exLog[today]=[];
+  appData.exLog[today].push({ts:Date.now(),type:r.type||'',distance_km:r.distance_km||0,duration_min:r.duration_min||0,heart_rate:r.heart_rate||0,calories:r.calories||0,speed_kmh:r.speed_kmh||0,summary:r.summary||''});
+  saveData();renderExLog();
+}
+function renderExLog(){
+  var today=getToday(),logs=(appData.exLog&&appData.exLog[today])||[];
+  var totalCal=0,totalDist=0,totalTime=0;
+  logs.forEach(function(l){totalCal+=l.calories||0;totalDist+=l.distance_km||0;totalTime+=l.duration_min||0;});
+  document.getElementById('exTotalCal').textContent=totalCal;
+  document.getElementById('exTotalDist').textContent=totalDist.toFixed(1);
+  document.getElementById('exTotalTime').textContent=totalTime;
+  var el=document.getElementById('exLog');
+  if(logs.length===0){el.innerHTML='';return;}
+  var h='';logs.forEach(function(l,idx){
+    var d=new Date(l.ts);var t=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);
+    h+='<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03);">';
+    h+='<span>'+t+' '+(l.type||'')+' '+(l.distance_km?l.distance_km+'km ':'')+''+(l.duration_min?l.duration_min+'min ':'')+''+(l.calories?l.calories+'kcal':'')+'</span>';
+    h+='<span onclick="deleteExRecord('+idx+')" style="color:var(--red);cursor:pointer;font-size:9px;padding:1px 5px;border:1px solid rgba(255,71,87,0.3);border-radius:4px;">删除</span></div>';
+  });
+  el.innerHTML=h;
+}
+function deleteExRecord(idx){if(!isAdmin)return;var today=getToday();if(appData.exLog&&appData.exLog[today]){appData.exLog[today].splice(idx,1);saveData();renderExLog();}}
 
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 </script>
